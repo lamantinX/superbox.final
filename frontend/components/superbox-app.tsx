@@ -979,11 +979,6 @@ export function SuperboxApp() {
     bulky: "Крупногабарит",
   };
 
-  const specialPickupOptions: Array<{ id: SpecialPickupId; icon: string; label: string; sub: string }> = [
-    { id: "courier", icon: "🚚", label: "Отправлю курьера", sub: "другой заказ" },
-    { id: "bulky", icon: "📦", label: "Крупногабарит", sub: "тяжёлые грузы" },
-  ];
-
   const renderPickupFlow = () => {
     const paid = activeFlow === "pickup_paid";
     const isSpecial = paid && (activePickup.marketplace === "courier" || activePickup.marketplace === "bulky");
@@ -1019,41 +1014,6 @@ export function SuperboxApp() {
             />
           </div>
 
-          {paid && (
-            <div className="mt-6">
-              <p className="mb-4 text-center text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--muted)]">
-                Другие варианты
-              </p>
-              <div className="grid gap-4 sm:grid-cols-2">
-                {specialPickupOptions.map((opt) => {
-                  const active = activePickup.marketplace === opt.id;
-                  return (
-                    <button
-                      key={opt.id}
-                      type="button"
-                      onClick={() => updatePickup({ marketplace: opt.id, errors: {} })}
-                      className={`group relative flex min-h-[120px] flex-col items-center justify-center gap-2 rounded-[28px] border px-5 py-5 text-center transition ${
-                        active
-                          ? "border-[color:rgba(196,46,160,0.32)] bg-white shadow-[0_20px_44px_rgba(123,77,255,0.18)]"
-                          : "border-[rgba(123,77,255,0.2)] bg-[linear-gradient(135deg,rgba(123,77,255,0.05),rgba(196,46,160,0.04))] hover:-translate-y-1 hover:shadow-[0_16px_32px_rgba(59,26,110,0.08)]"
-                      }`}
-                    >
-                      {active && (
-                        <span className="absolute right-4 top-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[linear-gradient(135deg,#c42ea0,#7c33ff)] text-xs font-bold text-white shadow-[0_10px_18px_rgba(123,77,255,0.22)]">
-                          ✓
-                        </span>
-                      )}
-                      <span className="text-3xl">{opt.icon}</span>
-                      <span className="flex flex-col items-center gap-0.5">
-                        <span className="text-sm font-semibold text-[color:var(--foreground)]">{opt.label}</span>
-                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--muted)]">{opt.sub}</span>
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
           {activePickup.errors.marketplace ? (
             <p className="mt-4 text-center text-sm font-semibold text-[color:var(--danger)]">{activePickup.errors.marketplace}</p>
           ) : null}
